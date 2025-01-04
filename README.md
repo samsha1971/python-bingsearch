@@ -23,13 +23,13 @@ for everyone who want to use bing search.
 ## Installation
 
 ```sh
-pip install bingsearch
+pip install python-bingsearch
 ```
 
 ## Using
 
 ```sh
->>> from bingsearch.bingsearch import bingsearch
+>>> from bingsearch import bingsearch
 >>> bingsearch.search('Python',num_results=10)
 >>> bingsearch.slow_bingsearch('Python',num_results=20)
 ```

@@ -30,13 +30,13 @@ Installation
 
 .. code:: bash
 
-   pip install bingsearch
+   pip install python-bingsearch
 
 Using
 -----
 
 .. code:: bash
 
-   >>> from bingsearch.bingsearch import bingsearch
+   >>> from bingsearch import bingsearch
    >>> bingsearch.search('Python',num_results=10)
    >>> bingsearch.slow_bingsearch('Python',num_results=20)

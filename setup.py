@@ -15,20 +15,21 @@ def read(fname):
 setup(
     install_requires=["requests>=2.18.4", "beautifulsoup4>=4.6.0",
                       "lxml>=4.1.0", "playwright>=1.36.0"],
-    name="bingsearch",
-    version="1.0.0",
+    name="python-bingsearch",
+    version="1.0.3",
     author="Sam Sha",
     maintainer='Sam Sha',
     author_email="sam_sha@163.com",
     description="bing Search unofficial API for Python with no external dependencies",
     keywords="search-api bing python",
-    url="https://github.com/sam_sha/python-bingsearch",
+    url="https://github.com/samsha1971/python-bingsearch",
     packages=find_packages(),
     platforms=["all"],
     exclude_package_data={
         '': ['config.json', '__pycache__/*']
     },
     long_description=read('README.rst'),
+    long_description_content_type="text/x-rst",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Topic :: Utilities",
