@@ -39,4 +39,4 @@ Using
 
    >>> from bingsearch import bingsearch
    >>> bingsearch.search('Python',num_results=10)
-   >>> bingsearch.slow_bingsearch('Python',num_results=20)
+

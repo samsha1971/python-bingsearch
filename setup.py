@@ -13,10 +13,10 @@ def read(fname):
 
 
 setup(
-    install_requires=["requests>=2.18.4", "beautifulsoup4>=4.6.0",
-                      "lxml>=4.1.0", "playwright>=1.36.0"],
+    install_requires=["requests>=2.32.3", "beautifulsoup4>=4.12.3",
+                      "lxml>=5.3.0", "playwright>=1.48.0"],
     name="python-bingsearch",
-    version="1.0.3",
+    version="1.0.4",
     author="Sam Sha",
     maintainer='Sam Sha',
     author_email="sam_sha@163.com",

@@ -59,85 +59,8 @@ BING_SEARCH_URL = "https://www.bing.com/search?"
 BING_HOST_URL = "https://www.bing.com"
 
 
-def search(keyword, num_results=10, debug=False):
+def search(keyword, num_results=10, debug=0):
     """
-    单页面检索，速度比较快。
-    通过requests进行单页面检索，因只下载了首页内容，没有下载多余文件，所以速度比较快
-    :param debug: 是否启用调试模式
-    :param keyword: 关键字
-    :param num_results: 指定返回的结果个数，最多返回Bing的一页内容，目前Bing默认是10个结果
-    :param debug: 是否启用调试模式
-    :return: 结果列表
-    """
-    if not keyword or num_results <= 0:
-        return []
-
-    list_result = []
-
-    try:
-        # 构建搜索URL
-        params = {
-            "q": keyword,
-            # "FPIG": str(uuid.uuid4()).replace('-', ''),
-            # "first": 0,
-            # "FORM": "PORE"
-        }
-        next_url = BING_SEARCH_URL + urlencode(params)
-        # 发送请求
-        res = requests.get(next_url)
-        if res.status_code != 200:
-            logger.error(f"Failed to fetch search results: {res.status_code}")
-            return []
-        # with open("./bing.html", "wb") as f:
-        #     f.write(res.content)
-        #     f.close()
-        # 解析HTML内容
-        root = BeautifulSoup(res.content, "lxml")
-        ol = root.find(id="b_content").find("main").find(id="b_results")
-
-        for li in ol.contents:
-            if not li or not hasattr(li, 'get'):
-                continue
-
-            classes = li.get("class", [])
-            if "b_pag" in classes:
-                a = li.find("nav").find("a", class_="sb_pagN")
-                if a and 'href' in a.attrs:
-                    a_href = urljoin(BING_HOST_URL, a.attrs["href"])
-                    # 处理分页链接（如果需要）, 用Requests跳转不成功，所以放弃改用Playwright，请使用search函数
-
-            if "b_algo" not in classes:
-                continue
-
-            news_title = li.find("h2").find("a").get_text(
-                strip=True) if li.find("h2") else ''
-            news_url = li.find("div", class_="b_tpcn").find(
-                "a").attrs["href"] if li.find("div", class_="b_tpcn") else ''
-            news_abstract = li.find("div", class_="b_caption").get_text(strip=True)[
-                :ABSTRACT_MAX_LENGTH] if li.find("div", class_="b_caption") else ''
-
-            list_result.append({
-                "rank": len(list_result) + 1,
-                "title": news_title,
-                "url": news_url,
-                "abstract": news_abstract
-            })
-
-    except requests.exceptions.RequestException as e:
-        if debug:
-            logger.error(f"Network error during request: {e}")
-        return []
-    except Exception as e:
-        if debug:
-            logger.error(f"Error parsing page HTML: {e}")
-        return []
-
-    return list_result[:num_results]
-
-
-def slow_search(keyword, num_results=10, debug=0):
-    """
-    多页检索，慢查询。
     通过playwright进行多页面检索，因playwright完全模拟浏览器，加载了更多文件，所以速度比较慢。
     :param keyword: 关键字
     :param num_results: 指定返回的结果个数，支持多页检索，返回数量超过10个结果
@@ -233,13 +156,9 @@ def run():
                         action='store_true')  # on/off flag
 
     args = parser.parse_args()
-    if args.num_results <= 10:
-        results = search(
-            args.keyword, num_results=args.num_results, debug=args.debug)
-    else:
-        results = slow_search(
-            args.keyword, num_results=args.num_results, debug=args.debug)
-
+  
+    results = search(args.keyword, num_results=args.num_results, debug=args.debug)
+    
     if isinstance(results, list):
         print("search results：(total[{}]items.)".format(len(results)))
         for res in results:
