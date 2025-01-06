@@ -12,12 +12,6 @@ https://github.com/samsha1971/python-bingsearch
 
 for everyone who want to use bing search.
 
-## Features
-
-- Free unrestricted API, requires no key or credit card
-- Unicode support
-- Works for all Python versions (2 & 3)
-
 ## Installation
 
 ```sh
@@ -27,6 +21,30 @@ pip install python-bingsearch
 ## Using
 
 ```sh
->>> from bingsearch import bingsearch
->>> bingsearch.search('Python',num_results=10)
+from bingsearch.bingsearch import BingSearch
+
+bs = BingSearch()
+data = bs.search("python")
+print(data)
 ```
+
+```python
+# reuse in a program
+
+## first times
+with BingSearch() as bs:
+    results = bs.search(
+        args.keyword, num_results=args.num_results, debug=args.debug)
+    
+## second times
+bs = BingSearch()
+results = bs.search(
+    args.keyword, num_results=args.num_results, debug=args.debug)
+bs.release_resource() # Need active resource release
+
+## third times
+with BingSearch() as bs:
+    results = bs.search(
+        args.keyword, num_results=args.num_results, debug=args.debug)
+```
+

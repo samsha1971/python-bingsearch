@@ -1,5 +1,5 @@
-from bingsearch import bingsearch
+from bingsearch.bingsearch import BingSearch
 
-data = bingsearch.search("银川地震")
+bs = BingSearch()
+data = bs.search("python")
 print(data)
-
